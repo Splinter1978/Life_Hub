@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeHub — Твій Простір Продуктивності</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script src="js/tailwind.config.js"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="app-body">
+
+    <div class="app-container">
+
+        <!-- ================= HEADER ================= -->
+        <header class="header glass">
+            <div class="header-brand">
+                <div class="header-logo">
+                    <i data-lucide="sparkles" class="header-logo-icon"></i>
+                </div>
+                <div>
+                    <h1 class="header-title">LifeHub</h1>
+                    <p class="header-date" id="current-date">Завантаження дати...</p>
+                </div>
+            </div>
+
+            <div class="header-greeting">
+                <span class="greeting-label">Привіт,</span>
+                <span class="greeting-name" id="user-greeting">Успішний Користувач! 👋</span>
+            </div>
+
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" title="Змінити тему">
+                    <i data-lucide="moon" class="icon-dark-hidden"></i>
+                    <i data-lucide="sun" class="icon-light-hidden"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- ================= MAIN GRID ================= -->
+        <div class="main-grid">
+
+            <!-- ---------- LEFT COLUMN ---------- -->
+            <div class="left-column">
+
+                <!-- Pomodoro Timer -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="timer" class="icon-blue"></i> Таймер Фокусу
+                        </h2>
+                        <span id="timer-mode-label" class="timer-mode-badge">Фокус</span>
+                    </div>
+
+                    <div class="timer-circle-wrapper">
+                        <svg class="timer-circle-svg" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8"
+                                class="timer-track" fill="transparent" />
+                            <circle id="timer-progress" cx="50" cy="50" r="42" stroke="currentColor"
+                                stroke-width="8" class="timer-progress" fill="transparent"
+                                stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
+                        </svg>
+                        <div class="timer-display-wrapper">
+                            <span id="timer-display" class="timer-display">25:00</span>
+                            <p class="timer-subtext" id="timer-subtext">Час працювати!</p>
+                        </div>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button id="start-timer-btn" class="btn btn-primary">
+                            <i data-lucide="play"></i> Старт
+                        </button>
+                        <button id="pause-timer-btn" class="btn btn-warning btn-hidden">
+                            <i data-lucide="pause"></i> Пауза
+                        </button>
+                        <button id="reset-timer-btn" class="btn btn-ghost">
+                            <i data-lucide="rotate-ccw"></i>
+                        </button>
+                    </div>
+
+                    <div class="timer-modes">
+                        <button data-timer-mode="work" class="timer-mode-btn">Робота (25m)</button>
+                        <button data-timer-mode="shortBreak" class="timer-mode-btn">Пауза (5m)</button>
+                        <button data-timer-mode="longBreak" class="timer-mode-btn">Відпочинок (15m)</button>
+                    </div>
+                </div>
+
+                <!-- Quote Card -->
+                <div class="card card-quote">
+                    <div class="quote-watermark">
+                        <i data-lucide="quote"></i>
+                    </div>
+                    <div class="quote-content">
+                        <div class="quote-header">
+                            <h2 class="quote-label">
+                                <i data-lucide="lightbulb" class="icon-amber"></i> Натхнення дня
+                            </h2>
+                            <button id="new-quote-btn" class="quote-refresh-btn">
+                                <i data-lucide="refresh-cw"></i> Нова
+                            </button>
+                        </div>
+                        <p id="quote-text" class="quote-text">
+                            "Найкращий спосіб передбачити майбутнє — створити його."
+                        </p>
+                        <p id="quote-author" class="quote-author">— Пітер Друкер</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ---------- RIGHT COLUMN ---------- -->
+            <div class="right-column">
+
+                <!-- Tasks Manager -->
+                <div class="card">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">
+                                <i data-lucide="check-square" class="icon-emerald"></i>
+                                Мої Завдання на Сьогодні
+                            </h2>
+                            <p class="section-subtitle">Організуй свій день ефективно</p>
+                        </div>
+                        <div class="filter-group">
+                            <button data-filter="all" class="filter-btn filter-btn-active">Всі</button>
+                            <button data-filter="active" class="filter-btn">Активні</button>
+                            <button data-filter="completed" class="filter-btn">Завершені</button>
+                        </div>
+                    </div>
+
+                    <form id="add-task-form" class="add-form">
+                        <input type="text" id="task-input" placeholder="Що потрібно зробити?" required
+                            class="input-field">
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="plus"></i> Додати
+                        </button>
+                    </form>
+
+                    <ul id="tasks-list" class="tasks-list"></ul>
+
+                    <div class="tasks-footer">
+                        <span id="tasks-stats">Виконано: 0 з 0</span>
+                        <div class="progress-track">
+                            <div id="tasks-progress-bar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habits -->
+                <div class="card">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">
+                                <i data-lucide="activity" class="icon-indigo"></i>
+                                Щоденні Звички
+                            </h2>
+                            <p class="section-subtitle">Маленькі кроки до великих результатів</p>
+                        </div>
+                        <button id="add-habit-btn" class="btn btn-soft-indigo">
+                            <i data-lucide="plus"></i> Нова звичка
+                        </button>
+                    </div>
+
+                    <div id="habits-grid" class="habits-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2026 LifeHub. Створено для підтримки вашої щоденної мотивації та продуктивності.</p>
+        </footer>
+    </div>
+
+    <!-- ================= HABIT MODAL ================= -->
+    <div id="habit-modal" class="modal-backdrop">
+        <div class="modal glass">
+            <div class="modal-header">
+                <h3 class="modal-title">Створити Нову Звичку</h3>
+                <button id="close-habit-modal" class="modal-close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="add-habit-form" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Назва звички</label>
+                    <input type="text" id="habit-title-input" placeholder="Наприклад: Читати 20 сторінок" required
+                        class="input-field">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Категорія</label>
+                    <select id="habit-category-input" class="input-field">
+                        <option value="health">Здоров'я & Спорт</option>
+                        <option value="mind">Розум & Навчання</option>
+                        <option value="work">Продуктивність</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-habit-btn" class="btn btn-ghost">Скасувати</button>
+                    <button type="submit" class="btn btn-indigo">Зберегти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>
